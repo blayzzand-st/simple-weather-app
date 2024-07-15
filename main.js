@@ -9,26 +9,27 @@ weatherForm.addEventListener("submit", async (event) => {
     const loader = document.querySelector(".loader");
     const weatherCard = document.querySelector(".card");
 
-    const city = cityInput.value;
+    const city = cityInput.value.trim();
 
     if (!city) {
         displayError("Please enter a valid city");
         return;
     }
 
+    weatherCard.style.display = "none";
+    loader.style.display = "block";
+
     try {
-        weatherCard.style.display = "none";
-        loader.style.display = "block";
-
         const weatherData = await getWeatherData(city);
-
-        loader.style.display = "none";
 
         displayWeatherInfo(weatherData);
     }
     catch (e) {
         console.error(e);
         displayError(e);
+    }
+    finally {
+        loader.style.display = "none";
     }
 });
 
